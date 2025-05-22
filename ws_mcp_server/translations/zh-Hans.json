@@ -1,0 +1,20 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "配置 MCP Server",
+        "description": "输入 WebSocket 客户端地址以连接 MCP。",
+        "data": {
+          "client_endpoint": "客户端 WebSocket 地址",
+          "name": "名称"
+        }
+      }
+    },
+    "error": {
+      "single_instance_allowed": "只能配置一个 MCP Server 实例"
+    },
+    "abort": {
+      "single_instance_allowed": "只能配置一个 MCP Server 实例"
+    }
+  }
+}
