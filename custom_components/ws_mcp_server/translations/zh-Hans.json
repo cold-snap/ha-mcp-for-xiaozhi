@@ -2,10 +2,10 @@
   "config": {
     "step": {
       "user": {
-        "title": "配置 MCP Server",
+        "title": "配置小智MCP接入点",
         "description": "输入 WebSocket 客户端地址以连接 MCP。",
         "data": {
-          "client_endpoint": "客户端 WebSocket 地址",
+          "client_endpoint": "小智MCP接入点地址",
           "name": "名称"
         }
       }
