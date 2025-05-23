@@ -1,10 +1,10 @@
 {
   "domain": "ws_mcp_server",
   "name": "MCP Server for Xiaozhi",
-  "codeowners": ["@c1pher"],
+  "codeowners": ["@c1pher-cn"],
   "config_flow": true,
   "dependencies": ["homeassistant", "http", "conversation"],
-  "documentation": "",
+  "documentation": "https://github.com/c1pher-cn/ha-mcp-for-xiaozhi",
   "integration_type": "service",
   "iot_class": "cloud_polling",
   "requirements": [],
