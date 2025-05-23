@@ -40,7 +40,7 @@ async def _connect_loop(hass: HomeAssistant, entry: WsMCPServerConfigEntry) -> N
     """Reconnect on failure loop."""
     while True:
         try:
-            _LOGGER.error("mcp websocket.py loop")
+            _LOGGER.info("mcp websocket.py loop")
             await _connect_to_client(hass, entry)
         except Exception as e:
             _LOGGER.warning("mcp WebSocket disconnected or failed: %s", e)
@@ -55,7 +55,7 @@ async def _connect_to_client(hass: HomeAssistant, entry: WsMCPServerConfigEntry)
         _LOGGER.error("No client endpoint configured in config entry")
         return
 
-    _LOGGER.error("mcp websocket.py _connect_to_client")
+    _LOGGER.info("mcp websocket.py _connect_to_client")
     context = llm.LLMContext(
         platform=DOMAIN,
         context={},  # Could be extended
@@ -84,7 +84,7 @@ async def _connect_to_client(hass: HomeAssistant, entry: WsMCPServerConfigEntry)
                                 try:
                                     json_data = msg.json()
                                     message = types.JSONRPCMessage.model_validate(json_data)
-                                    #_LOGGER.error("mcp reader: %s", message)
+                                    _LOGGER.info("mcp reader: %s", message)
                                     await read_stream_writer.send(message)
                                 except Exception as err:
                                     _LOGGER.error("mcp Invalid message from client: %s", err)
@@ -94,22 +94,21 @@ async def _connect_to_client(hass: HomeAssistant, entry: WsMCPServerConfigEntry)
                                 _LOGGER.error("mcp WebSocket error: %s", msg.data)
                     async def ws_writer():
                         async for message in write_stream_reader:
-                            _LOGGER.warning("mcp writer: %s", message)
+                            _LOGGER.info("mcp writer: %s", message)
                             await ws.send_str(message.model_dump_json(by_alias=True, exclude_none=True))
-                    #async def heartbeat():
-                    #    while True:
-                    #        try:
-                    #            await asyncio.sleep(50)
-                    #            _LOGGER.error("mcp heartbeat")
-                    #            await ws.ping()
-                    #        except Exception as e:
-                    #            _LOGGER.error("mcp heartbeat ping failed: %s", e)
-                    #            break  # 主动退出 heartbeat，让整个连接关闭并重连
+                    async def heartbeat():
+                        while True:
+                            try:
+                                await asyncio.sleep(50)
+                                _LOGGER.info("mcp heartbeat")
+                                await ws.ping()
+                            except Exception as e:
+                                _LOGGER.info("mcp heartbeat ping failed: %s", e)
+                                break  # 主动退出 heartbeat，让整个连接关闭并重连
                     async with anyio.create_task_group() as tg:
                         tg.start_soon(ws_reader)
                         tg.start_soon(ws_writer)
-                        #tg.start_soon(heartbeat)
+                        tg.start_soon(heartbeat)
                         await server.run(read_stream, write_stream, options)
             except Exception as e:
                 _LOGGER.exception("mcp Failed to connect to client WebSocket at %s: %s", endpoint, e)
-
