@@ -7,10 +7,6 @@ Homeassistant MCP server for 小智AI，homeassistant 内置mcpserver通过webso
 
 ---
 
-<a href="https://star-history.com/#c1pher-cn/ha-mcp-for-xiaozhi&Date"></a>
-
----
-
 <a href="https://www.bilibili.com/video/BV1FMFyejExX" >接入演示视频</a>
 
 ---
@@ -44,5 +40,30 @@ Homeassistant MCP server for 小智AI，homeassistant 内置mcpserver通过webso
 ![bd06b555b9e5c24fbf819c43397c97ee](https://github.com/user-attachments/assets/ace79a44-6197-4e94-8c49-ab9048ed4502)
 
 
+---
 
-插件刚刚发布，可能会有各种问题，欢迎反馈，反馈时请务必一起带上你的ha日志和小智官方对话的聊天记录。
+<a href="https://star-history.com/#c1pher-cn/ha-mcp-for-xiaozhi&Date"></a>
+
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=c1pher-cn/ha-mcp-for-xiaozhi&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=c1pher-cn/ha-mcp-for-xiaozhi&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=c1pher-cn/ha-mcp-for-xiaozhi&type=Date" />
+ </picture>
+</a>
+
+---
+
+### 调试说明
+
+ 1.暴露的工具取决于你公开给Homeassistant语音助手的实体的种类
+ 
+    设置 -> 语音助手 -> 公开
+   
+ 2.尽量使用最新版本的homeassistant，单单看5月版本跟3月版本提供的工具就有明显差异
+
+ 3.调试时未达到预期，优先看小智的聊天记录，看看小智对这句指令如何处理的，是否有调用homeassistant的工具。
+
+ 4.如果流程正确的调用了ha内置的function，可以打开本插件的调试日志再去观测实际的执行情况。
+ 
+ 
+
