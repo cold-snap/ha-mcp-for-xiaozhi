@@ -1,10 +1,21 @@
-# ha-mcp-for-xiaozhi
+## ha-mcp-for-xiaozhi
+
 
 Homeassistant MCP server for 小智AI，homeassistant 内置mcpserver通过websocket直连小智AI官方服务器。
 
 原理：实现了mcp over websocket，省去了虾哥mcp代理部分的额外开销，不需要填任何token，只需要一个虾哥提供的mcp接入点地址
 
-安装方法：
+---
+
+<a href="https://star-history.com/#c1pher-cn/ha-mcp-for-xiaozhi&Date"></a>
+
+---
+
+<a href="https://www.bilibili.com/video/BV1FMFyejExX" >接入演示视频</a>
+
+---
+ 
+### 安装方法：
 
 确保Home Assistant中已安装HACS
 
@@ -20,7 +31,7 @@ Homeassistant MCP server for 小智AI，homeassistant 内置mcpserver通过webso
 4.重启Home Assistant.
 
 
-配置方法：
+### 配置方法：
 
 [设置 > 设备与服务 > 添加集成] > 搜索“Mcp” >找到MCP Server for Xiaozhi
 ![8ca5334a2d15f59325f3d5acb12083c8](https://github.com/user-attachments/assets/89212647-d572-45d2-98f2-60ba59203b04)
