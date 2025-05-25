@@ -40,16 +40,6 @@ Homeassistant MCP server for 小智AI，homeassistant 内置mcpserver通过webso
 ![bd06b555b9e5c24fbf819c43397c97ee](https://github.com/user-attachments/assets/ace79a44-6197-4e94-8c49-ab9048ed4502)
 
 
----
-
-<a href="https://star-history.com/#c1pher-cn/ha-mcp-for-xiaozhi&Date"></a>
-
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=c1pher-cn/ha-mcp-for-xiaozhi&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=c1pher-cn/ha-mcp-for-xiaozhi&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=c1pher-cn/ha-mcp-for-xiaozhi&type=Date" />
- </picture>
-</a>
 
 ---
 
@@ -61,9 +51,22 @@ Homeassistant MCP server for 小智AI，homeassistant 内置mcpserver通过webso
    
  2.尽量使用最新版本的homeassistant，单单看5月版本跟3月版本提供的工具就有明显差异
 
- 3.调试时未达到预期，优先看小智的聊天记录，看看小智对这句指令如何处理的，是否有调用homeassistant的工具。
+ 3.调试时未达到预期，优先看小智的聊天记录，看看小智对这句指令如何处理的，是否有调用homeassistant的工具。目前已知比较大的问题是灯光控制和音乐控制会和内置的屏幕控制、音乐控制逻辑冲突，需要等下个月虾哥服务器支持内置工具选择后可解。
 
  4.如果流程正确的调用了ha内置的function，可以打开本插件的调试日志再去观测实际的执行情况。
+ 
+---
+
+<a href="https://star-history.com/#c1pher-cn/ha-mcp-for-xiaozhi&Date"></a>
+
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=c1pher-cn/ha-mcp-for-xiaozhi&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=c1pher-cn/ha-mcp-for-xiaozhi&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=c1pher-cn/ha-mcp-for-xiaozhi&type=Date" />
+ </picture>
+</a>
+
+
  
  
 
