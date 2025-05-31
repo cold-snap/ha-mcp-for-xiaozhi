@@ -42,8 +42,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: WsMCPServerConfigEntry) 
     async def _system_started(event):
         entry.runtime_data = SessionManager()
         await websocket_transport.async_setup_entry(hass,entry)
-
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STARTED, _system_started)
+    if hass.is_running:
+        await _system_started(None)
+    else:
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STARTED, _system_started)
     return True
     
 
