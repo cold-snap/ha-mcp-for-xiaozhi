@@ -95,6 +95,8 @@ async def _connect_to_client(hass: HomeAssistant, entry: WsMCPServerConfigEntry)
                                 _LOGGER.error("mcp WebSocket closed: %s", msg.extra)
                             elif msg.type == aiohttp.WSMsgType.ERROR:
                                 _LOGGER.error("mcp WebSocket error: %s", msg.data)
+                        _LOGGER.info("websocket was closed")
+                        tg.cancel_scope.cancel()  #立即取消任务组,避免50秒的心跳等待
                     async def ws_writer():
                         async for message in write_stream_reader:
                             _LOGGER.info("mcp writer: %s", message)
@@ -103,7 +105,6 @@ async def _connect_to_client(hass: HomeAssistant, entry: WsMCPServerConfigEntry)
                         nonlocal bReConnect
                         bReConnect = False
                         await ws.close()  #断开旧websocket连接
-                        tg.cancel_scope.cancel()  #立即取消任务组,避免50秒的心跳等待
                     async def heartbeat():
                         while True:
                             try:
