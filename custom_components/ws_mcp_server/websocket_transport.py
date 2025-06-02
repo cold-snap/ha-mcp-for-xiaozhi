@@ -41,9 +41,11 @@ async def _connect_loop(hass: HomeAssistant, entry: WsMCPServerConfigEntry) -> N
     while True:
         try:
             _LOGGER.info("mcp websocket.py loop")
-            await _connect_to_client(hass, entry)
+            if await _connect_to_client(hass, entry) == False:
+                break
         except Exception as e:
             _LOGGER.warning("mcp WebSocket disconnected or failed: %s", e)
+        _LOGGER.info("mcp websocket.py retry after 20 seconds")
         await asyncio.sleep(20)  # 20秒后重连
 
 async def _connect_to_client(hass: HomeAssistant, entry: WsMCPServerConfigEntry) -> None:
@@ -53,7 +55,7 @@ async def _connect_to_client(hass: HomeAssistant, entry: WsMCPServerConfigEntry)
     endpoint = entry.data.get("client_endpoint")
     if not endpoint:
         _LOGGER.error("No client endpoint configured in config entry")
-        return
+        return False
 
     _LOGGER.info("mcp websocket.py _connect_to_client")
     context = llm.LLMContext(
@@ -71,7 +73,8 @@ async def _connect_to_client(hass: HomeAssistant, entry: WsMCPServerConfigEntry)
 
     read_stream_writer, read_stream = anyio.create_memory_object_stream(0)
     write_stream, write_stream_reader = anyio.create_memory_object_stream(0)
-
+    
+    bReConnect = True
     async with session_manager.create(Session(read_stream_writer)) as session_id:
         _LOGGER.info("mcp Connecting to MCP client at: %s", endpoint)
         timeout = aiohttp.ClientTimeout(total=60)
@@ -92,10 +95,16 @@ async def _connect_to_client(hass: HomeAssistant, entry: WsMCPServerConfigEntry)
                                 _LOGGER.error("mcp WebSocket closed: %s", msg.extra)
                             elif msg.type == aiohttp.WSMsgType.ERROR:
                                 _LOGGER.error("mcp WebSocket error: %s", msg.data)
+                        _LOGGER.info("websocket was closed")
+                        tg.cancel_scope.cancel()  #立即取消任务组,避免50秒的心跳等待
                     async def ws_writer():
                         async for message in write_stream_reader:
                             _LOGGER.info("mcp writer: %s", message)
                             await ws.send_str(message.model_dump_json(by_alias=True, exclude_none=True))
+                        _LOGGER.info("disconnect websocket")
+                        nonlocal bReConnect
+                        bReConnect = False
+                        await ws.close()  #断开旧websocket连接
                     async def heartbeat():
                         while True:
                             try:
@@ -112,3 +121,4 @@ async def _connect_to_client(hass: HomeAssistant, entry: WsMCPServerConfigEntry)
                         await server.run(read_stream, write_stream, options)
             except Exception as e:
                 _LOGGER.exception("mcp Failed to connect to client WebSocket at %s: %s", endpoint, e)
+    return bReConnect
