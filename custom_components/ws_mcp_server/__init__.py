@@ -31,17 +31,35 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     return True
 
 
-#async def async_setup_entry(hass: HomeAssistant, entry: WsMCPServerConfigEntry) -> bool:
-#    """Set up Model Context Protocol Server from a config entry."""
-#    entry.runtime_data = SessionManager()
-#    await websocket_transport.async_setup_entry(hass,entry)
-#    return True
-    
+
 async def async_setup_entry(hass: HomeAssistant, entry: WsMCPServerConfigEntry) -> bool:
     """Set up Model Context Protocol Server from a config entry."""
     async def _system_started(event):
-        entry.runtime_data = SessionManager()
-        await websocket_transport.async_setup_entry(hass,entry)
+        try:
+            # 为每个配置实例创建独立的会话管理器
+            session_manager = SessionManager()
+            # 将会话管理器存储在 hass.data 中,使用 entry.entry_id 作为唯一键
+            hass.data.setdefault(DOMAIN, {})[entry.entry_id] = {
+                "session_manager": session_manager,
+                "config": entry.data
+            }
+            # 添加状态实体
+            hass.states.async_set(f"{DOMAIN}.{entry.entry_id}_status", "connecting")
+
+            entry.runtime_data = session_manager
+            await websocket_transport.async_setup_entry(hass, entry)
+            hass.states.async_set(f"{DOMAIN}.{entry.entry_id}_status", "connected")
+        except ConnectionError as ex:
+            hass.states.async_set(f"{DOMAIN}.{entry.entry_id}_status", "error")
+            _LOGGER.error("MCP connect failed due to connection error: %s", ex)
+            # 清理已添加的 session_manager
+            if DOMAIN in hass.data and entry.entry_id in hass.data[DOMAIN]:
+                hass.data[DOMAIN].pop(entry.entry_id)
+        except Exception as ex:
+            hass.states.async_set(f"{DOMAIN}.{entry.entry_id}_status", "error")
+            _LOGGER.error("MCP connect failed: %s", ex)
+            if DOMAIN in hass.data and entry.entry_id in hass.data[DOMAIN]:
+                hass.data[DOMAIN].pop(entry.entry_id)
     if hass.is_running:
         await _system_started(None)
     else:
@@ -52,7 +70,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: WsMCPServerConfigEntry) 
 
 async def async_unload_entry(hass: HomeAssistant, entry: WsMCPServerConfigEntry) -> bool:
     """Unload a config entry."""
-    session_manager = entry.runtime_data
-    session_manager.close()
+    # 清理资源
+    if DOMAIN in hass.data and entry.entry_id in hass.data[DOMAIN]:
+        session_manager = hass.data[DOMAIN][entry.entry_id]["session_manager"]
+        session_manager.close()
+        hass.data[DOMAIN].pop(entry.entry_id)
+    
     return True
-

@@ -12,6 +12,9 @@ from homeassistant.helpers.selector import (
     TextSelector
 )
 
+from homeassistant.config_entries import ConfigEntry
+from .session import SessionManager
+
 from .const import DOMAIN
 
 CONF_CLIENT_ENDPOINT = "client_endpoint"
@@ -25,18 +28,26 @@ _LOGGER = logging.getLogger(__name__)
 class WsMCPServerConfigFlow(ConfigFlow, domain=DOMAIN):
     """Handle a config flow for MCP Server."""
     VERSION = 1
-
+    SUPPORT_MULTIPLE_ENTRIES = True  # 添加这行来支持多实例
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
         """Handle the initial step."""
-        _LOGGER.error("mcp  LLM APIs available: %s",  llm.async_get_apis(self.hass))
+        _LOGGER.debug("mcp  LLM APIs available: %s",  llm.async_get_apis(self.hass))
+        
         llm_apis = {api.id: api.name for api in llm.async_get_apis(self.hass)}
         #llm_apis = {api.id: api.name for api in await llm.async_get_apis(self.hass)}
         if user_input is not None:
+            # 为每个配置创建唯一标识
+            title = f"{llm_apis[user_input[CONF_LLM_HASS_API]]} - {user_input[CONF_CLIENT_ENDPOINT]}"
+            
+            # 验证配置是否重复
+            await self.async_set_unique_id(f"{user_input[CONF_LLM_HASS_API]}_{user_input[CONF_CLIENT_ENDPOINT]}")
+            self._abort_if_unique_id_configured()
+
             return self.async_create_entry(
-                title=llm_apis[user_input[CONF_LLM_HASS_API]],
+                title=title,
                 data=user_input,
             )
 
