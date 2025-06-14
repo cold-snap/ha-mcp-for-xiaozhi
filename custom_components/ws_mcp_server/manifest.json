@@ -8,7 +8,7 @@
   "integration_type": "service",
   "iot_class": "cloud_polling",
   "requirements": [],
-  "version": "0.0.5",
+  "version": "0.0.6",
   "branding": {
     "logo": "icons/logo.png",
     "icon": "icons/icon.png"
