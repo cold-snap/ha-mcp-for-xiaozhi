@@ -3,7 +3,9 @@
 
 Homeassistant MCP server for 小智AI，homeassistant 内置mcpserver通过websocket直连小智AI官方服务器。
 
-原理：实现了mcp over websocket，省去了虾哥mcp代理部分的额外开销，不需要填任何token，只需要一个虾哥提供的mcp接入点地址
+v0.0.6 新增功能：支持同时配置多个实体，并可以将HomeAssistant已连接的其他MCPserver，一起代理给小智MCP
+
+原理：实现了mcp over websocket，省去了虾哥mcp代理部分的额外开销，不需要填任何token，只需要一个虾哥提供的mcp接入点地址.
 
 ---
 
