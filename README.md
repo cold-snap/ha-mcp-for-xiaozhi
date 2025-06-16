@@ -9,7 +9,9 @@ v0.0.6 新增功能：支持同时配置多个实体，并可以将HomeAssistant
 
 ---
 
-<a href="https://www.bilibili.com/video/BV1FMFyejExX" >接入演示视频</a>
+<a href="https://www.bilibili.com/video/BV1FMFyejExX" > 接入演示视频 </a>
+
+<a href="https://www.bilibili.com/video/BV18DM8zuEYV" > 控制电视演示（通过自定义script实现）</a>
 
 ---
  
