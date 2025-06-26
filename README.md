@@ -1,13 +1,14 @@
 ## ha-mcp-for-xiaozhi
+Homeassistant MCP server for 小智AI，直连小智AI官方服务器。
 
 
-Homeassistant MCP server for 小智AI，homeassistant 内置mcpserver通过websocket直连小智AI官方服务器。
-
-v0.0.6 新增功能：支持同时配置多个实体，并可以将HomeAssistant已连接的其他MCPserver，一起代理给小智MCP
-
-原理：实现了mcp over websocket，省去了虾哥mcp代理部分的额外开销，不需要填任何token，只需要一个虾哥提供的mcp接入点地址.
+### 插件能力介绍
+#### 1.HomeAssistant自身作为mcp server 以websocket协议直接对接虾哥服务器，无需中转
+#### 2.支持同时配置多个实体
+#### 3.支持将已接入HomeAssistant的mcpserver代理给小智！
 
 ---
+### 功能演示（为爱发电不易，有币投投币、没币点点赞、刷几个弹幕也行）
 
 <a href="https://www.bilibili.com/video/BV1FMFyejExX" > 接入演示视频 </a>
 
