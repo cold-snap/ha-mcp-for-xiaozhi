@@ -11,6 +11,7 @@
       }
     },
     "error": {
+      "llm_api_required": "必须选择一组api",
       "single_instance_allowed": "只能配置一个 MCP Server 实例"
     },
     "abort": {
