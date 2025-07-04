@@ -34,6 +34,7 @@ class WsMCPServerConfigFlow(ConfigFlow, domain=DOMAIN):
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
         """Handle the initial step."""
+        errors: dict[str, str] = {}
         _LOGGER.debug("mcp  LLM APIs available: %s",  llm.async_get_apis(self.hass))
         
         llm_apis = {api.id: api.name for api in llm.async_get_apis(self.hass)}
@@ -46,10 +47,15 @@ class WsMCPServerConfigFlow(ConfigFlow, domain=DOMAIN):
             await self.async_set_unique_id(f"{user_input[CONF_LLM_HASS_API]}_{user_input[CONF_CLIENT_ENDPOINT]}")
             self._abort_if_unique_id_configured()
 
-            return self.async_create_entry(
-                title=title,
-                data=user_input,
-            )
+            if not user_input[CONF_LLM_HASS_API]:
+                errors[CONF_LLM_HASS_API] = "llm_api_required"
+            else:
+                return self.async_create_entry(
+                    title=", ".join(
+                        llm_apis[api_id] for api_id in user_input[CONF_LLM_HASS_API]
+                    ),
+                    data=user_input,
+                )
 
         return self.async_show_form(
             step_id="user",
@@ -59,7 +65,7 @@ class WsMCPServerConfigFlow(ConfigFlow, domain=DOMAIN):
                     vol.Required(CONF_CLIENT_ENDPOINT): selector.TextSelector(),
                     vol.Optional(
                         CONF_LLM_HASS_API,          # llm_hass_api
-                        default=llm.LLM_API_ASSIST, # assist
+                        default=[llm.LLM_API_ASSIST], # assist
                     ): SelectSelector(
                         SelectSelectorConfig(
                             options=[
@@ -68,12 +74,14 @@ class WsMCPServerConfigFlow(ConfigFlow, domain=DOMAIN):
                                     value=llm_api_id,
                                 )
                                 for llm_api_id, name in llm_apis.items()
-                            ]
+                            ],
+                            multiple=True,
                         )
                     ),
                 }
             ),
-            description_placeholders={"more_info_url": "https://example.com/mcp-server-docs"},
+            description_placeholders={"more_info_url": MORE_INFO_URL},
+            errors=errors,
         )
 
 
