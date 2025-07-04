@@ -6,7 +6,11 @@
         "description": "输入 WebSocket 客户端地址以连接 MCP。",
         "data": {
           "client_endpoint": "小智MCP接入点地址",
-          "name": "名称"
+          "name": "名称",
+          "llm_hass_api": "[%key:common::config_flow::data::llm_hass_api%]"
+        },
+        "data_description": {
+          "llm_hass_api": "The method for controlling Home Assistant to expose with the Model Context Protocol."
         }
       }
     },
