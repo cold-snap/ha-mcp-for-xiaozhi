@@ -4,7 +4,8 @@ Homeassistant MCP server for 小智AI，直连小智AI官方服务器。
 
 ### 插件能力介绍
 #### 1.HomeAssistant自身作为mcp server 以websocket协议直接对接虾哥服务器，无需中转
-#### 2.支持同时配置多个实体
+#### 2.在一个实体里选择多组Function
+#### 3.支持同时配置多个实体
 #### 3.支持将已接入HomeAssistant的mcpserver代理给小智！
 
 ---
