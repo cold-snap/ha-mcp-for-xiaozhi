@@ -42,16 +42,16 @@ def _format_tool(
 
 
 async def create_server(
-    hass: HomeAssistant, llm_api_id: str, llm_context: llm.LLMContext
+    hass: HomeAssistant, llm_api_id: str | list[str], llm_context: llm.LLMContext
 ) -> Server:
     """Create a new Model Context Protocol Server.
 
     A Model Context Protocol Server object is associated with a single session.
     The MCP SDK handles the details of the protocol.
     """
-    _LOGGER.error("mcp create server, llm_api_id:%s , llm_context:%s)",llm_api_id ,llm_context)
-    _LOGGER.error("mcp create server, STATELESS_LLM_API:%s )",STATELESS_LLM_API)
-    _LOGGER.error("mcp create server, llm.LLM_API_ASSIST:%s )",llm.LLM_API_ASSIST)
+    #_LOGGER.error("mcp create server, llm_api_id:%s , llm_context:%s)",llm_api_id ,llm_context)
+    #_LOGGER.error("mcp create server, STATELESS_LLM_API:%s )",STATELESS_LLM_API)
+    #_LOGGER.error("mcp create server, llm.LLM_API_ASSIST:%s )",llm.LLM_API_ASSIST)
     if llm_api_id == STATELESS_LLM_API:
         llm_api_id = llm.LLM_API_ASSIST
 
