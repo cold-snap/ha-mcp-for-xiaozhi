@@ -61,7 +61,6 @@ async def _connect_to_client(hass: HomeAssistant, entry: WsMCPServerConfigEntry)
     context = llm.LLMContext(
         platform=DOMAIN,
         context={},  # Could be extended
-        user_prompt=None,
         language="*",
         assistant=conversation.DOMAIN,
         device_id=None,
