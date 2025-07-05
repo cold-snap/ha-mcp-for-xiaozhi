@@ -41,7 +41,7 @@ class WsMCPServerConfigFlow(ConfigFlow, domain=DOMAIN):
         #llm_apis = {api.id: api.name for api in await llm.async_get_apis(self.hass)}
         if user_input is not None:
             # 为每个配置创建唯一标识
-            title = f"{llm_apis[user_input[CONF_LLM_HASS_API]]} - {user_input[CONF_CLIENT_ENDPOINT]}"
+            title = f"{user_input[CONF_LLM_HASS_API]}"
             
             # 验证配置是否重复
             await self.async_set_unique_id(f"{user_input[CONF_LLM_HASS_API]}_{user_input[CONF_CLIENT_ENDPOINT]}")
