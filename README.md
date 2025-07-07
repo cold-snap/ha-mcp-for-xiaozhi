@@ -1,5 +1,14 @@
+
 ## ha-mcp-for-xiaozhi
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/c1pher-cn/brands/refs/heads/master/custom_integrations/ws_mcp_server/icon.png" alt="Alt Text" align="center">
+</p>  
+
+<p align="center"> 
 Homeassistant MCP server for 小智AI，直连小智AI官方服务器。
+</p>
+
 
 
 ### 插件能力介绍
