@@ -24,6 +24,8 @@ Homeassistant MCP server for 小智AI，直连小智AI官方服务器。
 
 <a href="https://www.bilibili.com/video/BV18DM8zuEYV" > 控制电视演示（通过自定义script实现）</a>
 
+<a href="https://www.bilibili.com/video/BV1SruXzqEW5" > HomeAssistant、LLM、MCP、小智的进阶教程 </a>
+
 ---
  
 ### 安装方法：
