@@ -1,3 +1,6 @@
+# Project Title
+- [English](README.md)
+- [中文](README.zh.md)
 
 ## ha-mcp-for-xiaozhi
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=c1pher-cn&repository=ha-mcp-for-xiaozhi&category=integration)
@@ -38,7 +41,8 @@ Homeassistant MCP server for 小智AI，直连小智AI官方服务器。
 
 
 2.下载插件
-![d20fa7d2367fecc35bd8914b1f508ea6](https://github.com/user-attachments/assets/a8447eb4-7659-4c3e-98b1-4dbe5a6d4b30)
+<img width="748" height="580" alt="image" src="https://github.com/user-attachments/assets/1ee75d6f-e1b0-4073-a2c7-ee0d72d002ca" />
+
 
 3.重启Home Assistant.
 
@@ -46,11 +50,14 @@ Homeassistant MCP server for 小智AI，直连小智AI官方服务器。
 ### 配置方法：
 
 [设置 > 设备与服务 > 添加集成] > 搜索“Mcp” >找到MCP Server for Xiaozhi
-![8ca5334a2d15f59325f3d5acb12083c8](https://github.com/user-attachments/assets/89212647-d572-45d2-98f2-60ba59203b04)
+<img width="888" height="478" alt="image" src="https://github.com/user-attachments/assets/07a70fe1-8c6e-4679-84df-1ea05114b271" />
 
 
-下一步 > 请填写小智MCP接入点地址 > 提交。
-![6f4b22e8bd8190d4f0faeaba731481f9](https://github.com/user-attachments/assets/2f70b30c-7ced-4505-ac80-00d1a6a8280e)
+
+下一步 > 请填写小智MCP接入点地址、选择需要的MCP > 提交。
+注意llm_hass_api 复选框里  Assist 就是ha自带的function，其他选项是你在HomeAssistant里接入的其他mcp server（可以在这里直接代理给小智）
+<img width="774" height="632" alt="image" src="https://github.com/user-attachments/assets/38e98fde-8a6c-4434-932c-840c25dc6e28" />
+
 
 配置完成！！！稍等一分钟后到小智的接入点页面点击刷新，检查状态。
 ![bd06b555b9e5c24fbf819c43397c97ee](https://github.com/user-attachments/assets/ace79a44-6197-4e94-8c49-ab9048ed4502)
