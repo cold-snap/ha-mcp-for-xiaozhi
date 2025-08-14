@@ -23,7 +23,7 @@ Homeassistant MCP server for XiaoZhi AI，directly connect to Xiaozhi AI officia
 ---
 ### Function demonstration（please like it for support, or post a few comments）
 
-<a href="https://www.bilibili.com/video/BV1FMFyejExX" > Access demonstration video </a>
+<a href="https://www.bilibili.com/video/BV1XdjJzeEwe" > Access demonstration video </a>
 
 <a href="https://www.bilibili.com/video/BV18DM8zuEYV" > Control TV presentation (via custom script)</a>
 
