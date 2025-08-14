@@ -23,7 +23,7 @@ Homeassistant MCP server for 小智AI，直连小智AI官方服务器。
 ---
 ### 功能演示（为爱发电不易，有币投投币、没币点点赞、刷几个弹幕也行）
 
-<a href="https://www.bilibili.com/video/BV1FMFyejExX" > 接入演示视频 </a>
+<a href="https://www.bilibili.com/video/BV1XdjJzeEwe" > 接入演示视频 </a>
 
 <a href="https://www.bilibili.com/video/BV18DM8zuEYV" > 控制电视演示（通过自定义script实现）</a>
 
