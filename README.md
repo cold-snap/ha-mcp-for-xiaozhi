@@ -41,6 +41,7 @@ Homeassistant MCP server for 小智AI，直连小智AI官方服务器。
 
 
 2.下载插件
+
 <img width="748" height="580" alt="image" src="https://github.com/user-attachments/assets/1ee75d6f-e1b0-4073-a2c7-ee0d72d002ca" />
 
 
@@ -50,16 +51,20 @@ Homeassistant MCP server for 小智AI，直连小智AI官方服务器。
 ### 配置方法：
 
 [设置 > 设备与服务 > 添加集成] > 搜索“Mcp” >找到MCP Server for Xiaozhi
+
 <img width="888" height="478" alt="image" src="https://github.com/user-attachments/assets/07a70fe1-8c6e-4679-84df-1ea05114b271" />
 
 
 
 下一步 > 请填写小智MCP接入点地址、选择需要的MCP > 提交。
+
 注意llm_hass_api 复选框里  Assist 就是ha自带的function，其他选项是你在HomeAssistant里接入的其他mcp server（可以在这里直接代理给小智）
+
 <img width="774" height="632" alt="image" src="https://github.com/user-attachments/assets/38e98fde-8a6c-4434-932c-840c25dc6e28" />
 
 
 配置完成！！！稍等一分钟后到小智的接入点页面点击刷新，检查状态。
+
 ![bd06b555b9e5c24fbf819c43397c97ee](https://github.com/user-attachments/assets/ace79a44-6197-4e94-8c49-ab9048ed4502)
 
 
