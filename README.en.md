@@ -41,6 +41,7 @@ Make sure HACS is installed in Home Assistant
 
 
 2.Download the component
+
 <img width="748" height="580" alt="image" src="https://github.com/user-attachments/assets/1ee75d6f-e1b0-4073-a2c7-ee0d72d002ca" />
 
 
@@ -50,17 +51,21 @@ Make sure HACS is installed in Home Assistant
 ### Configuration：
 
 [Settings > Devices & Services > Add Integration] > Search for "Mcp" > Find MCP Server for Xiaozhi
+
 <img width="888" height="478" alt="image" src="https://github.com/user-attachments/assets/07a70fe1-8c6e-4679-84df-1ea05114b271" />
 
 
 
 Next > Please fill in the Xiaozhi MCP access point address, select the required MCP > Submit. 
+
 Note that the Assist in the llm_hass_api checkbox is the HA built-in function, 
 and the other options are other MCP servers you had connected in HomeAssistant (you can directly proxy to Xiaozhi here)
+
 <img width="774" height="632" alt="image" src="https://github.com/user-attachments/assets/38e98fde-8a6c-4434-932c-840c25dc6e28" />
 
 
 Configuration is complete! Wait a minute and go to Xiaozhi's access point page and click refresh to check the
+
 ![bd06b555b9e5c24fbf819c43397c97ee](https://github.com/user-attachments/assets/ace79a44-6197-4e94-8c49-ab9048ed4502)
 
 
