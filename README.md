@@ -1,8 +1,8 @@
-# Project Title
-- [English](README.md)
-- [中文](README.zh.md)
-
 ## ha-mcp-for-xiaozhi
+- [English](README.en.md)
+- [中文](README.md)
+
+
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=c1pher-cn&repository=ha-mcp-for-xiaozhi&category=integration)
 
 <p align="center">
