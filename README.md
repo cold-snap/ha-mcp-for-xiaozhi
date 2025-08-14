@@ -1,5 +1,6 @@
 
 ## ha-mcp-for-xiaozhi
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=c1pher-cn&repository=ha-mcp-for-xiaozhi&category=integration)
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/c1pher-cn/brands/refs/heads/master/custom_integrations/ws_mcp_server/icon.png" alt="Alt Text" align="center">
@@ -16,7 +17,6 @@ Homeassistant MCP server for 小智AI，直连小智AI官方服务器。
 #### 2.在一个实体里同时选择多个API组（HomeAssistant自带控制API、用户自己配置的MCPServer）并将它们一起代理给小智
 #### 3.支持同时配置多个实体
 
-！！！注意，v0.0.8 版本需要使用2025.7.0及以后版的HomeAssistant， 2025.3-2025.6版本的homeassistant 请使用 v0.0.7 谢谢配合！！！
 ---
 ### 功能演示（为爱发电不易，有币投投币、没币点点赞、刷几个弹幕也行）
 
@@ -32,16 +32,15 @@ Homeassistant MCP server for 小智AI，直连小智AI官方服务器。
 
 确保Home Assistant中已安装HACS
 
-1.打开HACS, 点击[Custom repositories], Repository 输入本项目地址: https://github.com/c1pher-cn/ha-mcp-for-xiaozhi
+1.打开HACS, 搜索 xiaozhi 或 ha-mcp-for-xiaozhi
 
-2.Category 选择 [Integration]
+<img width="2316" height="238" alt="image" src="https://github.com/user-attachments/assets/fa49ee7c-b503-49fa-ad63-512499fa3885" />
 
-![5e1048c4fbd23d3385c09985fd09b50e](https://github.com/user-attachments/assets/db5431c6-35cf-49b4-bd0e-f2c2296df641)
 
-3.下载插件
+2.下载插件
 ![d20fa7d2367fecc35bd8914b1f508ea6](https://github.com/user-attachments/assets/a8447eb4-7659-4c3e-98b1-4dbe5a6d4b30)
 
-4.重启Home Assistant.
+3.重启Home Assistant.
 
 
 ### 配置方法：
