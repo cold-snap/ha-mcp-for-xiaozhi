@@ -84,6 +84,9 @@ Homeassistant MCP server for 小智AI，直连小智AI官方服务器。
  4.如果流程正确的调用了ha内置的function，可以打开本插件的调试日志再去观测实际的执行情况。
  
 ---
+<a href="https://buymeacoffee.com/c1pher_cn" target="_blank" rel="noreferrer noopener">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee">
+</a>
 
 <a href="https://star-history.com/#c1pher-cn/ha-mcp-for-xiaozhi&Date"></a>
 
