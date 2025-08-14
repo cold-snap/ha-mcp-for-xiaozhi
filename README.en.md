@@ -72,7 +72,7 @@ Configuration is complete! Wait a minute and go to Xiaozhi's access point page a
 
 ---
 
-### 调试说明
+### Debugging Instructions
 
  1.The tools exposed depend on the type of entity you expose to the HomeAssistant voice assistant
    
@@ -83,6 +83,9 @@ Configuration is complete! Wait a minute and go to Xiaozhi's access point page a
  4.If the process correctly calls the built-in function of HA, you can open the debug log of this plug-in to observe the actual execution status.
  
 ---
+<a href="https://buymeacoffee.com/c1pher_cn" target="_blank" rel="noreferrer noopener">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee">
+</a>
 
 <a href="https://star-history.com/#c1pher-cn/ha-mcp-for-xiaozhi&Date"></a>
 
