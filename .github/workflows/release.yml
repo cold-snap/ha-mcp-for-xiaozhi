@@ -3,6 +3,7 @@ name: Upload ZIP to Release
 on:
   release:
     types: [created]  # 当创建 Release 时触发
+  workflow_dispatch: 
 
 jobs:
   build:
