@@ -1,0 +1,25 @@
+name: Create Release with ZIP
+on:
+  push:
+    tags:
+      - 'v*' # 触发条件：推送以 'v' 开头的标签时运行
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Create ZIP
+        run: |
+          zip -r ha-mcp-for-xiaozhi.zip . # 将当前目录内容打包为 ha-mcp-for-xiaozhi.zip
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./ha-mcp-for-xiaozhi.zip
+          asset_name: ha-mcp-for-xiaozhi.zip
+          asset_content_type: application/zip
