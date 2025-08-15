@@ -2,6 +2,7 @@
     "name": "MCP Server for Xiaozhi",
     "content_in_root": false,
     "render_readme": true,
-    "country":"CN",
+    "zip_release": true,
+    "filename": "ha-mcp-for-xiaozhi.zip",
     "homeassistant": "2025.7.0"
 }
