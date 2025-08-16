@@ -36,7 +36,7 @@ jobs:
       - name: Update manifest version
         run: |
           VERSION=${GITHUB_REF#refs/tags/v}
-          sed -i "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" custom_components/ha-mcp-for-xiaozhi/manifest.json
+          sed -i "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" custom_components/ws_mcp_server/manifest.json
           echo "Updated manifest version to: $VERSION"
           cat custom_components/ha-mcp-for-xiaozhi/manifest.json
 
@@ -45,7 +45,7 @@ jobs:
       - name: Create ZIP
         run: |
           echo "Creating ZIP file..."
-          cd custom_components/ha-mcp-for-xiaozhi
+          cd custom_components/ws_mcp_server
           zip -r ../../ha-mcp-for-xiaozhi.zip . -x "__pycache__/*" "*.pyc"
           cd ../..
           echo "ZIP file created:"
