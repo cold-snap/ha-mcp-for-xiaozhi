@@ -9,13 +9,14 @@ from homeassistant.helpers.selector import (
     SelectOptionDict,
     SelectSelector,
     SelectSelectorConfig,
-    TextSelector
+    TextSelector,
+    BooleanSelector
 )
 
 from homeassistant.config_entries import ConfigEntry
 from .session import SessionManager
 
-from .const import DOMAIN
+from .const import DOMAIN, CONF_CHECK_DEVICE_INFO
 
 CONF_CLIENT_ENDPOINT = "client_endpoint"
 CONF_MODE = "control_mode"
@@ -78,6 +79,10 @@ class WsMCPServerConfigFlow(ConfigFlow, domain=DOMAIN):
                             multiple=True,
                         )
                     ),
+                    vol.Optional(
+                        CONF_CHECK_DEVICE_INFO,
+                        default=False,
+                    ): BooleanSelector(),
                 }
             ),
             description_placeholders={"more_info_url": MORE_INFO_URL},

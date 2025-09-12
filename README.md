@@ -69,6 +69,10 @@ Homeassistant MCP server for 小智AI，直连小智AI官方服务器。
 
 <img width="774" height="632" alt="image" src="https://github.com/user-attachments/assets/38e98fde-8a6c-4434-932c-840c25dc6e28" />
 
+配置选项说明：
+- **客户端端点**：小智MCP接入点地址
+- **LLM API**：选择需要的MCP，Assist是HA自带的function，其他选项是你在HomeAssistant里接入的其他mcp server
+- **设备信息检查**：启用后，会在AI提示中添加获取设备信息的说明，提醒AI在控制设备前先获取设备信息，避免因设备名称不匹配导致的控制失败
 
 配置完成！！！稍等一分钟后到小智的接入点页面点击刷新，检查状态。
 

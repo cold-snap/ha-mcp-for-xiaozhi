@@ -7,6 +7,7 @@ from mcp import types
 
 from homeassistant.components import conversation
 from homeassistant.const import CONF_LLM_HASS_API
+from .const import CONF_CHECK_DEVICE_INFO
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers import llm
 
@@ -67,7 +68,12 @@ async def _connect_to_client(hass: HomeAssistant, entry: WsMCPServerConfigEntry)
     )
     llm_api_id = entry.data[CONF_LLM_HASS_API]
     _LOGGER.info("mcp llm_api_id: %s", llm_api_id)
-    server = await create_server(hass, llm_api_id, context)
+    
+    # 获取配置信息
+    config = entry.data
+    _LOGGER.info("mcp config check_device_info: %s", config.get(CONF_CHECK_DEVICE_INFO, False))
+    
+    server = await create_server(hass, llm_api_id, context, config)
     options = await hass.async_add_executor_job(server.create_initialization_options)
 
     read_stream_writer, read_stream = anyio.create_memory_object_stream(0)

@@ -63,6 +63,10 @@ and the other options are other MCP servers you had connected in HomeAssistant (
 
 <img width="774" height="632" alt="image" src="https://github.com/user-attachments/assets/38e98fde-8a6c-4434-932c-840c25dc6e28" />
 
+Configuration options explanation:
+- **Client Endpoint**: Xiaozhi MCP access point address
+- **LLM API**: Select the required MCP, Assist is the HA built-in function, other options are other MCP servers you have connected in HomeAssistant
+- **Check Device Info**: When enabled, adds instructions in the AI prompt to remind AI to get device information before controlling devices, avoiding control failures due to device name mismatches
 
 Configuration is complete! Wait a minute and go to Xiaozhi's access point page and click refresh to check the
 

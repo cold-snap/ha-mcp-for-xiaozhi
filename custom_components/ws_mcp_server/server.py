@@ -21,7 +21,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import llm
 
-from .const import STATELESS_LLM_API
+from .const import STATELESS_LLM_API, CONF_CHECK_DEVICE_INFO
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -42,7 +42,7 @@ def _format_tool(
 
 
 async def create_server(
-    hass: HomeAssistant, llm_api_id: str | list[str], llm_context: llm.LLMContext
+    hass: HomeAssistant, llm_api_id: str | list[str], llm_context: llm.LLMContext, config: dict = None
 ) -> Server:
     """Create a new Model Context Protocol Server.
 
@@ -81,6 +81,19 @@ async def create_server(
         if name != llm_api.api.name:
             raise ValueError(f"Unknown prompt: {name}")
 
+        # 获取原始prompt
+        api_prompt = llm_api.api_prompt
+        
+        # 如果启用了设备信息检查
+        if config and config.get(CONF_CHECK_DEVICE_INFO, False):
+            # 添加设备信息获取说明
+            device_info_instruction = (
+                "\n\n重要提示：在控制设备前，请先使用GetLiveContext或类似函数获取设备信息，"
+                "确认设备的确切名称和状态，然后再使用HassTurnOn等控制函数。"
+                "这样可以避免因设备名称不匹配导致的控制失败。\n"
+            )
+            api_prompt = api_prompt + device_info_instruction
+
         return types.GetPromptResult(
             description=f"Default prompt for Home Assistant {llm_api.api.name} API",
             messages=[
@@ -88,7 +101,7 @@ async def create_server(
                     role="assistant",
                     content=types.TextContent(
                         type="text",
-                        text=llm_api.api_prompt,
+                        text=api_prompt,
                     ),
                 )
             ],
