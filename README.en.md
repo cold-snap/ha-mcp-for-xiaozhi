@@ -68,6 +68,18 @@ Configuration options explanation:
 - **LLM API**: Select the required MCP, Assist is the HA built-in function, other options are other MCP servers you have connected in HomeAssistant
 - **Check Device Info**: When enabled, adds instructions in the AI prompt to remind AI to get device information before controlling devices, avoiding control failures due to device name mismatches
 
+### About Device Information Check Feature
+
+This feature is fully backward compatible and will not affect existing configurations. For existing installations, this option is disabled by default after updating and needs to be enabled manually.
+
+To modify this setting:
+1. Enter Home Assistant
+2. Go to [Settings > Devices & Services]
+3. Find and click on the "MCP Server for Xiaozhi" integration
+4. Click the "Configure" button
+5. Check or uncheck the "Check Device Info" option
+6. Click "Submit" to save the settings
+
 Configuration is complete! Wait a minute and go to Xiaozhi's access point page and click refresh to check the
 
 ![bd06b555b9e5c24fbf819c43397c97ee](https://github.com/user-attachments/assets/ace79a44-6197-4e94-8c49-ab9048ed4502)

@@ -74,6 +74,18 @@ Homeassistant MCP server for 小智AI，直连小智AI官方服务器。
 - **LLM API**：选择需要的MCP，Assist是HA自带的function，其他选项是你在HomeAssistant里接入的其他mcp server
 - **设备信息检查**：启用后，会在AI提示中添加获取设备信息的说明，提醒AI在控制设备前先获取设备信息，避免因设备名称不匹配导致的控制失败
 
+### 关于设备信息检查功能
+
+此功能是完全前向兼容的，不会影响现有配置。对于已有安装，更新后默认该选项为关闭状态，需要手动开启。
+
+如需修改此设置：
+1. 进入Home Assistant
+2. 转到 [设置 > 设备与服务]
+3. 找到并点击"MCP Server for Xiaozhi"集成
+4. 点击"配置"按钮
+5. 勾选或取消勾选"设备信息检查"选项
+6. 点击"提交"保存设置
+
 配置完成！！！稍等一分钟后到小智的接入点页面点击刷新，检查状态。
 
 ![bd06b555b9e5c24fbf819c43397c97ee](https://github.com/user-attachments/assets/ace79a44-6197-4e94-8c49-ab9048ed4502)
