@@ -65,22 +65,27 @@ async def create_server(
         _LOGGER.warning("LLM API Instance，llm_api_id: %s", llm_api_id)
         # Backwards compatibility with old MCP Server config
         api_instance = await llm.async_get_api(hass, llm_api_id, llm_context)
-        _LOGGER.warning("Got API Inatance，api_name: %s, prompt length: %d", 
+        api_instance.api_prompt = await modify_prompt_with_device_check(api_instance.api_prompt)
+        _LOGGER.warning("Got API Inatance，api_name: %s, prompt : %s", 
                      api_instance.api.name, 
-                     len(api_instance.api_prompt) if api_instance.api_prompt else 0)
+                     api_instance.api_prompt)
         return api_instance
 
     @server.list_prompts()  # type: ignore[no-untyped-call, misc]
     async def handle_list_prompts() -> list[types.Prompt]:
+        _LOGGER.warning("handle_list_prompts called")
         llm_api = await get_api_instance()
         # 确保prompt已经被修改
         llm_api.api_prompt = await modify_prompt_with_device_check(llm_api.api_prompt)
-        return [
+        _LOGGER.warning("handle_list_prompts: api_prompt modified")
+        prompts = [
             types.Prompt(
                 name=llm_api.api.name,
                 description=f"Default prompt for Home Assistant {llm_api.api.name} API",
             )
         ]
+        _LOGGER.warning("handle_list_prompts: returning prompts=%s", prompts)
+        return prompts
 
     # 修改prompt的函数
     async def modify_prompt_with_device_check(original_prompt):
