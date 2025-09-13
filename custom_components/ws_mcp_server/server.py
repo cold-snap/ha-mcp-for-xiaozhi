@@ -49,23 +49,23 @@ async def create_server(
     A Model Context Protocol Server object is associated with a single session.
     The MCP SDK handles the details of the protocol.
     """
-    _LOGGER.warning("创建MCP服务器，配置状态：config=%s", config)
+    _LOGGER.warning("Creating MCP Server：config=%s", config)
     if config:
-        _LOGGER.warning("设备信息检查配置：check_device_info=%s", config.get(CONF_CHECK_DEVICE_INFO, False))
+        _LOGGER.warning("check_device_info=%s", config.get(CONF_CHECK_DEVICE_INFO, False))
     
     if llm_api_id == STATELESS_LLM_API:
         llm_api_id = llm.LLM_API_ASSIST
-    _LOGGER.warning("使用的LLM API ID: %s", llm_api_id)
+    _LOGGER.warning("LLM API ID: %s", llm_api_id)
 
     server = Server("home-assistant")
     #server = Server[Any]("home-assistant")
 
     async def get_api_instance() -> llm.APIInstance:
         """Get the LLM API selected."""
-        _LOGGER.warning("正在获取LLM API实例，llm_api_id: %s", llm_api_id)
+        _LOGGER.warning("LLM API Instance，llm_api_id: %s", llm_api_id)
         # Backwards compatibility with old MCP Server config
         api_instance = await llm.async_get_api(hass, llm_api_id, llm_context)
-        _LOGGER.warning("成功获取API实例，api_name: %s, prompt长度: %d", 
+        _LOGGER.warning("Got API Inatance，api_name: %s, prompt length: %d", 
                      api_instance.api.name, 
                      len(api_instance.api_prompt) if api_instance.api_prompt else 0)
         return api_instance
@@ -73,6 +73,8 @@ async def create_server(
     @server.list_prompts()  # type: ignore[no-untyped-call, misc]
     async def handle_list_prompts() -> list[types.Prompt]:
         llm_api = await get_api_instance()
+        # 确保prompt已经被修改
+        llm_api.api_prompt = await modify_prompt_with_device_check(llm_api.api_prompt)
         return [
             types.Prompt(
                 name=llm_api.api.name,
@@ -80,18 +82,10 @@ async def create_server(
             )
         ]
 
-    # 全局变量存储修改后的prompt
-    modified_api_prompt = None
-    
     # 修改prompt的函数
     async def modify_prompt_with_device_check(original_prompt):
-        global modified_api_prompt
         if not original_prompt:
             return original_prompt
-            
-        # 如果已经修改过，直接返回修改后的prompt
-        if modified_api_prompt:
-            return modified_api_prompt
             
         # 处理domain黑名单
         domain_blacklist = []
@@ -158,10 +152,8 @@ async def create_server(
             original_prompt = original_prompt + device_info_instruction
             _LOGGER.warning("Prompt modification completed, device info check instruction added")
         
-        # 保存修改后的prompt
-        modified_api_prompt = original_prompt
-        _LOGGER.warning("Final api_prompt: %s", modified_api_prompt)
-        return modified_api_prompt
+        _LOGGER.warning("Final api_prompt: %s", original_prompt)
+        return original_prompt
     
     @server.get_prompt()  # type: ignore[no-untyped-call, misc]
     async def handle_get_prompt(
@@ -219,8 +211,7 @@ async def create_server(
         llm_api = await get_api_instance()
         
         # 确保prompt已经被修改
-        original_prompt = llm_api.api_prompt
-        await modify_prompt_with_device_check(original_prompt)
+        llm_api.api_prompt = await modify_prompt_with_device_check(llm_api.api_prompt)
         
         tool_input = llm.ToolInput(tool_name=name, tool_args=arguments)
         _LOGGER.error("Tool call: %s(%s)", tool_input.tool_name, tool_input.tool_args)
