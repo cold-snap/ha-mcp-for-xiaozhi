@@ -109,32 +109,57 @@ async def create_server(
                     pre_context = original_prompt[:static_context_start]
                     static_context = original_prompt[static_context_start:]
                     
-                    # 分割静态上下文为行
-                    context_lines = static_context.split('\n')
-                    filtered_lines = []
-                    skip_device = False
-                    
-                    for line in context_lines:
-                        # 检查是否是设备定义的开始
-                        if line.strip().startswith('- names:'):
-                            skip_device = False
-                            
-                        # 检查是否包含domain行，且domain在黑名单中
-                        if line.strip().startswith('domain:'):
-                            domain_value = line.split('domain:')[1].strip()
-                            if domain_value in domain_blacklist:
-                                skip_device = True
-                                _LOGGER.warning("Filtering out device with domain: %s", domain_value)
-                                continue
+                    try:
+                        # 将静态上下文部分转换为YAML格式
+                        # 找到第一个设备定义的开始（以names开头的行）
+                        context_lines = static_context.split('\n')
+                        start_idx = -1
+                        for i, line in enumerate(context_lines):
+                            if line.strip().startswith('- names:'):
+                                start_idx = i
+                                break
                         
-                        # 如果当前设备不需要跳过，添加该行
-                        if not skip_device:
-                            filtered_lines.append(line)
-                    
-                    # 重建静态上下文
-                    filtered_static_context = '\n'.join(filtered_lines)
-                    original_prompt = pre_context + filtered_static_context
-                    _LOGGER.warning("Prompt filtered by domain blacklist")
+                        if start_idx == -1:
+                            _LOGGER.warning("No device definitions found in static context")
+                            return original_prompt
+                            
+                        # 只处理从第一个设备定义开始的行
+                        device_lines = []
+                        for line in context_lines[start_idx:]:
+                            if line.strip():
+                                if line.strip().startswith('- names:'):
+                                    device_lines.append('  ' + line.strip())
+                                else:
+                                    device_lines.append('    ' + line.strip())
+                        yaml_str = "devices:\n" + '\n'.join(device_lines)
+                        import yaml
+                        devices_data = yaml.safe_load(yaml_str)
+                        
+                        # 过滤掉黑名单中的设备
+                        filtered_devices = []
+                        for device in devices_data.get('devices', []):
+                            if device.get('domain') not in domain_blacklist:
+                                filtered_devices.append(device)
+                        
+                        # 将过滤后的设备转换回YAML格式
+                        filtered_yaml = yaml.dump(filtered_devices, allow_unicode=True, sort_keys=False, default_flow_style=False)
+                        # 调整缩进格式
+                        formatted_lines = []
+                        for line in filtered_yaml.split('\n'):
+                            if line.strip():
+                                if line.startswith('- '):
+                                    formatted_lines.append('  ' + line)
+                                else:
+                                    formatted_lines.append('    ' + line)
+                        
+                        # 重建静态上下文
+                        filtered_static_context = "Static Context: An overview of the areas and the devices in this smart home:\n" + '\n'.join(formatted_lines)
+                        original_prompt = pre_context + filtered_static_context
+                        _LOGGER.warning("Prompt filtered by domain blacklist using YAML parsing")
+                    except yaml.YAMLError as e:
+                        _LOGGER.error("Error parsing YAML: %s", e)
+                        # 如果YAML解析失败，保持原始prompt不变
+                        _LOGGER.warning("Falling back to original prompt due to YAML parsing error")
         
         # 如果启用了设备信息检查
         if config and config.get(CONF_CHECK_DEVICE_INFO, False):
