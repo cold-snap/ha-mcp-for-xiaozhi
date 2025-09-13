@@ -86,10 +86,7 @@ class WsMCPServerConfigFlow(ConfigFlow, domain=DOMAIN):
                     vol.Optional(
                         CONF_DOMAIN_BLACKLIST,
                         default="",
-                    ): selector.TextSelector(selector.TextSelectorConfig(
-                        multiline=True,
-                        placeholder="输入要屏蔽的domain，多个domain用逗号分隔，例如：switch,light"
-                    )),
+                    ): selector.TextSelector(),
                 }
             ),
             description_placeholders={"more_info_url": MORE_INFO_URL},

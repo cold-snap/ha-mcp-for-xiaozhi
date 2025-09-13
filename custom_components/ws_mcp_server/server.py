@@ -203,13 +203,9 @@ async def create_server(
         _LOGGER.warning("list_tools called, checking if before get_prompt")
         llm_api = await get_api_instance()
         
-        # 确保prompt已经被修改
-        original_prompt = llm_api.api_prompt
-        _LOGGER.warning("Original api_prompt in list_tools: %s", original_prompt)
-        
-        # 修改prompt（即使在list_tools中也确保prompt被修改）
-        modified_prompt = await modify_prompt_with_device_check(original_prompt)
-        _LOGGER.warning("Modified api_prompt in list_tools: %s", modified_prompt)
+        # 修改prompt
+        llm_api.api_prompt = await modify_prompt_with_device_check(llm_api.api_prompt)
+        _LOGGER.warning("Modified api_prompt in list_tools: %s", llm_api.api_prompt)
         
         _LOGGER.warning("Current config status in list_tools: config=%s, check_device_info=%s", 
                      config is not None, 

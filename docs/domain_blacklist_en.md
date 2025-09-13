@@ -13,7 +13,7 @@ To use the Domain Blacklist feature:
 3. Find the **WebSocket Model Context Protocol Server** integration and click on it
 4. Click on **Configure**
 5. In the configuration form, you'll find a text field for **domain_blacklist**
-6. Enter the domains you want to blacklist, separated by commas (e.g., `switch,light,sensor`)
+6. Enter the domains you want to blacklist, separated by commas (e.g., `switch,light,sensor`). Use a simple text format without special formatting.
 7. Click **Submit** to save your configuration
 
 ## How It Works
