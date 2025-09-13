@@ -72,6 +72,9 @@ Configuration options explanation:
 
 This feature is fully backward compatible and will not affect existing configurations. For existing installations, this option is disabled by default after updating and needs to be enabled manually.
 
+**Note**: Enabling this option will add instructions in the AI prompt to remind AI to get device information before controlling devices, 
+avoiding control failures due to device name mismatches. This may increase the time required for AI to execute commands.
+
 To modify this setting:
 1. Enter Home Assistant
 2. Go to [Settings > Devices & Services]
