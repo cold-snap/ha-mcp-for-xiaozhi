@@ -86,13 +86,24 @@ async def create_server(
         
         # 如果启用了设备信息检查
         if config and config.get(CONF_CHECK_DEVICE_INFO, False):
-            # 添加设备信息获取说明
+            _LOGGER.warning("设备信息检查功能已启用，正在修改prompt")
+            # 添加设备信息获取说明（强制要求）
             device_info_instruction = (
-                "\n\n重要提示：在控制设备前，请先使用GetLiveContext或类似函数获取设备信息，"
-                "确认设备的确切名称和状态，然后再使用HassTurnOn等控制函数。"
-                "这样可以避免因设备名称不匹配导致的控制失败。\n"
+                "\n\n## 强制指令：设备控制前必须获取设备信息\n"
+                "在调用任何设备控制函数（HassTurnOn、HassTurnOff、HassSetPosition等）之前，"
+                "**必须**先调用GetLiveContext函数获取准确的设备信息。\n\n"
+                "### 操作流程：\n"
+                "1. 首先调用GetLiveContext获取所有可用设备的状态和准确名称\n"
+                "2. 根据返回的设备信息确认要控制的设备确切名称\n"
+                "3. 然后才能调用相应的控制函数\n\n"
+                "### 违反此规则的后果：\n"
+                "- 设备控制可能失败\n"
+                "- 可能控制错误的设备\n"
+                "- 用户体验不佳\n\n"
+                "**注意：这是强制要求，不是建议！**\n"
             )
             api_prompt = api_prompt + device_info_instruction
+            _LOGGER.warning("prompt修改完成，已添加设备信息检查指令")
 
         return types.GetPromptResult(
             description=f"Default prompt for Home Assistant {llm_api.api.name} API",
@@ -120,6 +131,13 @@ async def create_server(
         llm_api = await get_api_instance()
         tool_input = llm.ToolInput(tool_name=name, tool_args=arguments)
         _LOGGER.error("Tool call: %s(%s)", tool_input.tool_name, tool_input.tool_args)
+        
+        # 如果启用了设备信息检查，记录控制函数调用
+        if config and config.get(CONF_CHECK_DEVICE_INFO, False):
+            control_tools = ['HassTurnOn', 'HassTurnOff', 'HassSetPosition', 'HassClimateSetTemperature', 
+                           'HassFanSetSpeed', 'HassLightSet', 'HassSetVolume', 'HassSetVolumeRelative']
+            if name in control_tools:
+                _LOGGER.error("警告：直接调用设备控制函数 %s，但设备信息检查已启用！", name)
 
         try:
             tool_response = await llm_api.async_call_tool(tool_input)
