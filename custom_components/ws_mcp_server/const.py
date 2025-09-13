@@ -9,3 +9,6 @@ STATELESS_LLM_API = "stateless_assist"
 # Configuration for checking device info before control
 CONF_CHECK_DEVICE_INFO = "check_device_info"
 
+# Configuration for domain blacklist
+CONF_DOMAIN_BLACKLIST = "domain_blacklist"
+

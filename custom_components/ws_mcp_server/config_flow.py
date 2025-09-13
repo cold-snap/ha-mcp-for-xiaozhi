@@ -16,7 +16,7 @@ from homeassistant.helpers.selector import (
 from homeassistant.config_entries import ConfigEntry
 from .session import SessionManager
 
-from .const import DOMAIN, CONF_CHECK_DEVICE_INFO
+from .const import DOMAIN, CONF_CHECK_DEVICE_INFO, CONF_DOMAIN_BLACKLIST
 
 CONF_CLIENT_ENDPOINT = "client_endpoint"
 CONF_MODE = "control_mode"
@@ -83,6 +83,13 @@ class WsMCPServerConfigFlow(ConfigFlow, domain=DOMAIN):
                         CONF_CHECK_DEVICE_INFO,
                         default=False,
                     ): BooleanSelector(),
+                    vol.Optional(
+                        CONF_DOMAIN_BLACKLIST,
+                        default="",
+                    ): selector.TextSelector(selector.TextSelectorConfig(
+                        multiline=True,
+                        placeholder="输入要屏蔽的domain，多个domain用逗号分隔，例如：switch,light"
+                    )),
                 }
             ),
             description_placeholders={"more_info_url": MORE_INFO_URL},

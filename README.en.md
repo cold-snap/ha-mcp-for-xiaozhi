@@ -19,6 +19,7 @@ Homeassistant MCP server for XiaoZhi AI，directly connect to Xiaozhi AI officia
 #### 1.HomeAssistant itself acts as an MCP server and connects directly to the XiaoZhi server via the websocket protocol without the need for a proxy.
 #### 2.Select multiple API groups (HomeAssistant's build in Intent APIs and user-configured MCPServer) in one entity and proxy them to Xiaozhi
 #### 3.Support configuring multiple entities at the same time
+#### 4.Support domain blacklist configuration to filter out unwanted device types and reduce prompt size
 
 ---
 ### Function demonstration（please like it for support, or post a few comments）
