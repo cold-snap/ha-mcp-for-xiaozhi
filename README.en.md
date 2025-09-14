@@ -67,14 +67,18 @@ and the other options are other MCP servers you had connected in HomeAssistant (
 Configuration options explanation:
 - **Client Endpoint**: Xiaozhi MCP access point address
 - **LLM API**: Select the required MCP, Assist is the HA built-in function, other options are other MCP servers you have connected in HomeAssistant
-- **Check Device Info**: When enabled, adds instructions in the AI prompt to remind AI to get device information before controlling devices, avoiding control failures due to device name mismatches
+- **Check Device Info**: When enabled, adds instructions in the AI prompt to remind AI to get device information when device control fails, ensuring retry with correct device names
 
 ### About Device Information Check Feature
 
 This feature is fully backward compatible and will not affect existing configurations. For existing installations, this option is disabled by default after updating and needs to be enabled manually.
 
-**Note**: Enabling this option will add instructions in the AI prompt to remind AI to get device information before controlling devices, 
-avoiding control failures due to device name mismatches. This may increase the time required for AI to execute commands.
+**Description**: When enabled, AI will get device information in the following cases:
+- After a device control operation fails
+- When device names are uncertain or ambiguous
+- When device status information is needed
+
+This approach ensures control success while avoiding the extra time cost of getting device information every time.
 
 To modify this setting:
 1. Enter Home Assistant

@@ -49,42 +49,42 @@ async def create_server(
     A Model Context Protocol Server object is associated with a single session.
     The MCP SDK handles the details of the protocol.
     """
-    _LOGGER.warning("Creating MCP Server：config=%s", config)
+    _LOGGER.info("Creating MCP Server：config=%s", config)
     if config:
-        _LOGGER.warning("check_device_info=%s", config.get(CONF_CHECK_DEVICE_INFO, False))
+        _LOGGER.info("check_device_info=%s", config.get(CONF_CHECK_DEVICE_INFO, False))
     
     if llm_api_id == STATELESS_LLM_API:
         llm_api_id = llm.LLM_API_ASSIST
-    _LOGGER.warning("LLM API ID: %s", llm_api_id)
+    _LOGGER.info("LLM API ID: %s", llm_api_id)
 
     server = Server("home-assistant")
     #server = Server[Any]("home-assistant")
 
     async def get_api_instance() -> llm.APIInstance:
         """Get the LLM API selected."""
-        _LOGGER.warning("LLM API Instance，llm_api_id: %s", llm_api_id)
+        _LOGGER.info("LLM API Instance，llm_api_id: %s", llm_api_id)
         # Backwards compatibility with old MCP Server config
         api_instance = await llm.async_get_api(hass, llm_api_id, llm_context)
         api_instance.api_prompt = await modify_prompt_with_device_check(api_instance.api_prompt)
-        _LOGGER.warning("Got API Inatance，api_name: %s, prompt : %s", 
+        _LOGGER.info("Got API Inatance，api_name: %s, prompt : %s", 
                      api_instance.api.name, 
                      api_instance.api_prompt)
         return api_instance
 
     @server.list_prompts()  # type: ignore[no-untyped-call, misc]
     async def handle_list_prompts() -> list[types.Prompt]:
-        _LOGGER.warning("handle_list_prompts called")
+        _LOGGER.info("handle_list_prompts called")
         llm_api = await get_api_instance()
         # 确保prompt已经被修改
         llm_api.api_prompt = await modify_prompt_with_device_check(llm_api.api_prompt)
-        _LOGGER.warning("handle_list_prompts: api_prompt modified")
+        _LOGGER.info("handle_list_prompts: api_prompt modified")
         prompts = [
             types.Prompt(
                 name=llm_api.api.name,
                 description=f"Default prompt for Home Assistant {llm_api.api.name} API",
             )
         ]
-        _LOGGER.warning("handle_list_prompts: returning prompts=%s", prompts)
+        _LOGGER.info("handle_list_prompts: returning prompts=%s", prompts)
         return prompts
 
     # 修改prompt的函数
@@ -166,18 +166,19 @@ async def create_server(
             _LOGGER.warning("Device info check enabled, modifying prompt")
             # 添加设备信息获取说明（强制要求）- 英文版
             device_info_instruction = (
-                "\n\n## MANDATORY INSTRUCTION: Device information must be obtained before control\n"
-                "Before calling any device control functions (HassTurnOn, HassTurnOff, HassSetPosition, etc.), "
-                "you **MUST** first call the GetLiveContext function to obtain accurate device information.\n\n"
+                "\n\n## MANDATORY INSTRUCTION: Device information must be obtained when control fails\n"
+                "If a device control function (HassTurnOn, HassTurnOff, HassSetPosition, etc.) fails, "
+                "you **MUST** call the GetLiveContext function to obtain accurate device information.\n\n"
                 "### Required Workflow:\n"
-                "1. First call GetLiveContext to get the status and accurate names of all available devices\n"
-                "2. Confirm the exact name of the device to be controlled based on the returned device information\n"
-                "3. Only then call the appropriate control function\n\n"
-                "### Consequences of violating this rule:\n"
-                "- Device control may fail\n"
-                "- Wrong devices may be controlled\n"
-                "- Poor user experience\n\n"
-                "**Note: This is a mandatory requirement, not a suggestion!**\n"
+                "1. Try to control the device with the given name\n"
+                "2. If control fails, call GetLiveContext to get the status and accurate names of all available devices\n"
+                "3. Confirm the exact name of the device to be controlled based on the returned device information\n"
+                "4. Retry the control function with the correct device name\n\n"
+                "### When to use GetLiveContext:\n"
+                "- After a device control operation fails\n"
+                "- When device names are uncertain or ambiguous\n"
+                "- When device status information is needed\n\n"
+                "**Note: This is a mandatory requirement for handling control failures!**\n"
             )
             original_prompt = original_prompt + device_info_instruction
             _LOGGER.warning("Prompt modification completed, device info check instruction added")
