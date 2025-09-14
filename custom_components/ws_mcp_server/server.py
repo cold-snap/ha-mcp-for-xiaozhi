@@ -75,9 +75,6 @@ async def create_server(
     async def handle_list_prompts() -> list[types.Prompt]:
         _LOGGER.info("handle_list_prompts called")
         llm_api = await get_api_instance()
-        # 确保prompt已经被修改
-        llm_api.api_prompt = await modify_prompt_with_device_check(llm_api.api_prompt)
-        _LOGGER.info("handle_list_prompts: api_prompt modified")
         prompts = [
             types.Prompt(
                 name=llm_api.api.name,
@@ -195,17 +192,9 @@ async def create_server(
         if name != llm_api.api.name:
             raise ValueError(f"Unknown prompt: {name}")
 
-        # 获取原始prompt
+        # 获取prompt
         api_prompt = llm_api.api_prompt
-        _LOGGER.warning("Original api_prompt: %s", api_prompt)
-        
-        # 检查配置状态
-        _LOGGER.warning("Current config status: config=%s, check_device_info=%s", 
-                     config is not None, 
-                     config.get(CONF_CHECK_DEVICE_INFO, False) if config else False)
-        
-        # 修改prompt
-        api_prompt = await modify_prompt_with_device_check(api_prompt)
+        _LOGGER.info("api_prompt: %s", api_prompt)
 
         return types.GetPromptResult(
             description=f"Default prompt for Home Assistant {llm_api.api.name} API",
@@ -223,17 +212,9 @@ async def create_server(
     @server.list_tools()  # type: ignore[no-untyped-call, misc]
     async def list_tools() -> list[types.Tool]:
         """List available time tools."""
-        _LOGGER.warning("list_tools called, checking if before get_prompt")
+        _LOGGER.info("list_tools called")
         llm_api = await get_api_instance()
-        
-        # 修改prompt
-        llm_api.api_prompt = await modify_prompt_with_device_check(llm_api.api_prompt)
-        _LOGGER.warning("Modified api_prompt in list_tools: %s", llm_api.api_prompt)
-        
-        _LOGGER.warning("Current config status in list_tools: config=%s, check_device_info=%s", 
-                     config is not None, 
-                     config.get(CONF_CHECK_DEVICE_INFO, False) if config else False)
-        _LOGGER.error("mcp list tools:%s )",llm_api.tools)
+        _LOGGER.info("mcp list tools:%s", llm_api.tools)
         return [_format_tool(tool, llm_api.custom_serializer) for tool in llm_api.tools]
 
     @server.call_tool()  # type: ignore[no-untyped-call, misc]
@@ -241,11 +222,8 @@ async def create_server(
         """Handle calling tools."""
         llm_api = await get_api_instance()
         
-        # 确保prompt已经被修改
-        llm_api.api_prompt = await modify_prompt_with_device_check(llm_api.api_prompt)
-        
         tool_input = llm.ToolInput(tool_name=name, tool_args=arguments)
-        _LOGGER.error("Tool call: %s(%s)", tool_input.tool_name, tool_input.tool_args)
+        _LOGGER.info("Tool call: %s(%s)", tool_input.tool_name, tool_input.tool_args)
         
         # 如果启用了设备信息检查，记录控制函数调用
         if config and config.get(CONF_CHECK_DEVICE_INFO, False):
